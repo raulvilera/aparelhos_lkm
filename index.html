@@ -23,115 +23,705 @@
       --input-bg: #f0f9ff;
       --overlay-bg: #e0f2fe;
     }
-
+    
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
+    
     body {
       font-family: 'Inter', sans-serif;
       background-color: var(--background);
       color: var(--text);
+      line-height: 1.5;
       padding: 20px;
     }
-
-    .input-3d {
-      background: linear-gradient(to bottom, transparent, #dbeafe);
-      padding: 12px;
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: var(--overlay-bg);
+      z-index: -1;
+      border-radius: 25px;
+      opacity: 0.5;
+      border: 2px solid var(--border-light);
+    }
+    
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding-bottom: 10px;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(to right, var(--primary), #10b981);
+      border-radius: 3px;
+    }
+    
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 30px;
+    }
+    
+    label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+      color: var(--text);
+      font-size: 14px;
+    }
+    
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--border-silver);
       border-radius: 12px;
+      background-color: var(--input-bg);
+      font-size: 15px;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-inset);
+      position: relative;
+      z-index: 1;
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+      background-color: var(--surface);
+    }
+    
+    input[type="date"], input[type="time"] {
+      position: relative;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+    
+    input[type="date"]::after,
+    input[type="time"]::after {
+      content: '⌵';
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: var(--primary);
+      pointer-events: none;
+      z-index: 2;
+    }
+    
+    .input-3d {
+      position: relative;
+    }
+    
+    .input-3d::before {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 5px;
+      right: 5px;
+      height: 10px;
+      background: var(--border-light);
+      border-radius: 0 0 12px 12px;
+      z-index: 0;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+    
+    .input-3d:focus-within::before {
+      bottom: -7px;
+      height: 12px;
+      opacity: 0.5;
+    }
+    
+    .input-3d:has(input:required),
+    .input-3d:has(select:required) {
+      background: rgba(219, 234, 254, 0.3);
+      border-radius: 12px;
+      padding: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .input-3d:has(input:required)::after,
+    .input-3d:has(select:required)::after {
+      content: '*';
+      color: #dc2626;
+      position: absolute;
+      right: 20px;
+      top: 45px;
+      font-size: 18px;
+    }
+    
+    input:focus:required, 
+    select:focus:required {
+      box-shadow: inset 4px 0 0 var(--primary),
+                  0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+    
+    .linha {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+    
+    .coluna {
+      flex: 1;
+      min-width: 220px;
+    }
+    
+    .btn-container {
+      text-align: center;
+      margin: 40px 0 20px;
+      position: relative;
+    }
+    
+    .btn-submit {
+      background-color: var(--primary);
+      color: white;
+      padding: 18px 36px;
+      border: none;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 0 var(--primary-dark), 0 12px 20px rgba(0, 0, 0, 0.15);
+      transition: all 0.2s ease;
+      position: relative;
+      top: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 220px;
+      border: 2px solid var(--border-light);
+    }
+    
+    .btn-submit:hover {
+      background-color: #1d4ed8;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 0 var(--primary-dark), 0 15px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-submit:active {
+      top: 5px;
+      box-shadow: 0 3px 0 var(--primary-dark), 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    #mensagem {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: 600;
+      padding: 12px;
+      border-radius: 8px;
+      background-color: rgba(209, 250, 229, 0.3);
+    }
+    
+    .sucesso { 
+      color: #065f46;
+      background-color: rgba(110, 231, 183, 0.3) !important;
+    }
+    
+    .erro { 
+      color: #b91c1c;
+      background-color: rgba(252, 165, 165, 0.3) !important;
+    }
+    
+    #preview {
+      width: 100%;
+      max-width: 280px;
+      height: 280px;
+      margin: 20px auto;
+      background: var(--input-bg);
+      border: 2px solid var(--border-silver);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+    
+    #preview::before {
+      content: "LEITOR QR CODE";
+      position: absolute;
+      top: -25px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--text);
+    }
+    
+    #qr-code-section {
+      display: none;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 25px;
+      border-radius: 16px;
+      margin-top: 30px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-light);
+    }
+    
+    #qr-code-image {
+      width: 200px;
+      height: 200px;
+      margin: 10px auto;
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    
+    #qr-code-data {
+      font-size: 14px;
+      word-break: break-word;
+      margin-top: 15px;
+      padding: 10px;
+      background: var(--input-bg);
+      border-radius: 8px;
+      box-shadow: var(--shadow-inset);
+    }
+    
+    .logo {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: linear-gradient(135deg, #3b82f6, #facc15, #fb923c);
+      color: transparent;
+      background-clip: text;
+      font-size: 24px;
+      font-weight: 800;
+      padding: 20px;
+      border-radius: 50%;
+      border: 4px solid white;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+    
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border-light);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px;
+      }
+      
+      .linha {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .coluna {
+        min-width: 100%;
+      }
+      
+      .btn-submit {
+        width: 100%;
+        padding: 16px;
+      }
+      
+      .input-3d:has(input:required)::after,
+      .input-3d:has(select:required)::after {
+        right: 15px;
+        top: 42px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>GERENCIAMENTO DE EQUIPAMENTOS</h1>
-    <!-- FORMULÁRIO MANTIDO AQUI (NÃO REPETIDO PARA FOCO NO SCRIPT) -->
+    
+    <div class="glass-effect">
+      <div class="linha">
+        <div class="coluna">
+          <div class="input-3d">
+            <label for="professor">Professor</label>
+            <input type="text" id="professor" required>
+          </div>
+        </div>
+        <div class="coluna">
+          <div class="input-3d">
+            <label for="disciplina">Disciplina</label>
+            <input type="text" id="disciplina">
+          </div>
+        </div>
+      </div>
+      
+      <div class="linha">
+        <div class="coluna">
+          <div class="input-3d">
+            <label for="hora-retirada">Hora da Retirada</label>
+            <input type="time" id="hora-retirada" required>
+          </div>
+        </div>
+        <div class="coluna">
+          <div class="input-3d">
+            <label for="data-retirada">Data da Retirada</label>
+            <input type="date" id="data-retirada" required>
+          </div>
+        </div>
+      </div>
+      
+      <div class="linha">
+        <div class="coluna">
+          <div class="input-3d">
+            <label for="hora-entrega">Hora da Entrega</label>
+            <input type="time" id="hora-entrega">
+          </div>
+        </div>
+        <div class="coluna">
+          <div class="input-3d">
+            <label for="data-entrega">Data da Entrega</label>
+            <input type="date" id="data-entrega">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="glass-effect">
+      <h2>DADOS DO APARELHO</h2>
+      <div class="linha">
+        <div class="coluna">
+          <div class="input-3d">
+            <label for="tipo-aparelho">Tipo de Aparelho</label>
+            <select id="tipo-aparelho" required>
+              <option value="">Selecione...</option>
+              <option value="Impressoras">Impressoras</option>
+              <option value="Notebooks">Notebooks</option>
+              <option value="Dispositivos Móveis">Dispositivos Móveis</option>
+            </select>
+          </div>
+          <div class="input-3d">
+            <label for="numero-serie">Nº de Série</label>
+            <input type="text" id="numero-serie" required>
+          </div>
+          <div class="input-3d">
+            <label for="quantidade-aparelhos">Quantidade</label>
+            <input type="number" id="quantidade-aparelhos" min="1" max="100" value="1" required>
+          </div>
+        </div>
+        <div class="coluna">
+          <div class="input-3d">
+            <label for="marca-aparelho">Marca do Aparelho</label>
+            <input type="text" id="marca-aparelho">
+          </div>
+          <div id="preview"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="qr-code-section" class="glass-effect">
+      <h3>QR CODE DO EQUIPAMENTO</h3>
+      <div id="qr-code-image"></div>
+      <div id="qr-code-data"></div>
+      <div class="btn-container">
+        <button class="btn-submit" onclick="baixarQRCode()">Baixar QR Code</button>
+        <a id="pdf-link" class="btn-submit" style="display: none; margin-top: 10px;" target="_blank">Ver Comprovante</a>
+      </div>
+    </div>
+    
     <div class="btn-container">
       <button class="btn-submit" id="btn-registrar" onclick="registrarRetirada()">Registrar Retirada</button>
     </div>
+    
     <p id="mensagem"></p>
+    
+    <div class="logo">LKM</div>
   </div>
 
   <script>
-    const URL_WEB_APP = 'https://script.google.com/macros/s/AKfycbwnnJ7mZvaAFsbiUAUbsVD1ov3jgXJNW6ObDkkM9pxfRWe3PK1xn6hUjwkg2WSRgwjhWA/exec';
+    // Configurações globais
+    const CONFIG = {
+      WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwj2i-KJfIx6sIQNyHJu9M1mecRKNSFwEml-7YiFxpVV5cjbr2uIHMm8NxwEQJPC6bJ1g/exec',
+      MAX_RETRIES: 3,
+      RETRY_DELAY: 1000
+    };
 
-    async function registrarRetirada() {
-      const btn = document.getElementById('btn-registrar');
-      const originalText = btn.textContent;
-      btn.textContent = 'Enviando...';
-      btn.disabled = true;
+    // Elementos do DOM
+    const DOM = {
+      professor: document.getElementById('professor'),
+      disciplina: document.getElementById('disciplina'),
+      horaRetirada: document.getElementById('hora-retirada'),
+      dataRetirada: document.getElementById('data-retirada'),
+      horaEntrega: document.getElementById('hora-entrega'),
+      dataEntrega: document.getElementById('data-entrega'),
+      tipoAparelho: document.getElementById('tipo-aparelho'),
+      numeroSerie: document.getElementById('numero-serie'),
+      quantidade: document.getElementById('quantidade-aparelhos'),
+      marcaAparelho: document.getElementById('marca-aparelho'),
+      btnRegistrar: document.getElementById('btn-registrar'),
+      mensagem: document.getElementById('mensagem'),
+      qrCodeSection: document.getElementById('qr-code-section'),
+      qrCodeImage: document.getElementById('qr-code-image'),
+      qrCodeData: document.getElementById('qr-code-data'),
+      pdfLink: document.getElementById('pdf-link')
+    };
 
-      const mensagemEl = document.getElementById('mensagem');
-      mensagemEl.textContent = 'Enviando dados...';
-      mensagemEl.className = '';
+    // Objeto de estado da aplicação
+    const APP_STATE = {
+      currentRetry: 0,
+      lastRequestId: null,
+      isProcessing: false
+    };
 
-      try {
-        const camposObrigatorios = [
-          'professor',
-          'hora-retirada',
-          'data-retirada',
-          'tipo-aparelho',
-          'numero-serie'
-        ];
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+      // Configura data padrão para hoje
+      const today = new Date().toISOString().split('T')[0];
+      DOM.dataRetirada.value = today;
+      
+      // Configura hora padrão para agora
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      DOM.horaRetirada.value = `${hours}:${minutes}`;
+    });
 
-        for (const id of camposObrigatorios) {
-          const el = document.getElementById(id);
-          if (!el.value.trim()) {
-            el.focus();
-            throw new Error(`O campo "${el.labels[0].textContent}" é obrigatório.`);
-          }
+    /**
+     * Valida os campos do formulário
+     * @throws {Error} Se validação falhar
+     */
+    function validarFormulario() {
+      const camposObrigatorios = [
+        { element: DOM.professor, name: 'Professor' },
+        { element: DOM.horaRetirada, name: 'Hora da Retirada' },
+        { element: DOM.dataRetirada, name: 'Data da Retirada' },
+        { element: DOM.tipoAparelho, name: 'Tipo de Aparelho' },
+        { element: DOM.numeroSerie, name: 'Número de Série' }
+      ];
+
+      for (const campo of camposObrigatorios) {
+        if (!campo.element.value.trim()) {
+          campo.element.focus();
+          throw new Error(`O campo "${campo.name}" é obrigatório`);
         }
+      }
 
-        const dados = {
-          acao: 'registrarRetirada',
-          professor: document.getElementById('professor').value.trim(),
-          disciplina: document.getElementById('disciplina').value.trim() || null,
-          horaRetirada: document.getElementById('hora-retirada').value,
-          dataRetirada: document.getElementById('data-retirada').value,
-          horaEntrega: document.getElementById('hora-entrega').value || null,
-          dataEntrega: document.getElementById('data-entrega').value || null,
-          tipo: document.getElementById('tipo-aparelho').value,
-          marca: document.getElementById('marca-aparelho').value.trim() || null,
-          serie: document.getElementById('numero-serie').value.trim(),
-          quantidade: document.getElementById('quantidade-aparelhos').value || '1'
-        };
-
-        const response = await fetch(URL_WEB_APP, {
-          method: 'POST',
-          mode: 'cors',
-          redirect: 'follow',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(dados)
-        });
-
-        const textoResposta = await response.text();
-        let resultado;
-        try {
-          resultado = JSON.parse(textoResposta);
-        } catch (e) {
-          throw new Error(`Resposta inválida do servidor: ${textoResposta}`);
-        }
-
-        if (!response.ok) {
-          throw new Error(resultado.mensagem || `Erro HTTP: ${response.status}`);
-        }
-
-        mensagemEl.textContent = resultado.mensagem;
-        mensagemEl.className = resultado.status === 'sucesso' ? 'sucesso' : 'erro';
-
-      } catch (erro) {
-        console.error('Erro no registro:', erro);
-        mensagemEl.textContent = `Erro: ${erro.message}`;
-        mensagemEl.className = 'erro';
-      } finally {
-        btn.textContent = originalText;
-        btn.disabled = false;
+      // Validação específica para quantidade
+      const quantidade = parseInt(DOM.quantidade.value);
+      if (isNaN(quantidade) || quantidade < 1 || quantidade > 100) {
+        DOM.quantidade.focus();
+        throw new Error('Quantidade deve ser entre 1 e 100');
       }
     }
+
+    /**
+     * Prepara os dados do formulário para envio
+     * @return {Object} Dados formatados
+     */
+    function prepararDados() {
+      return {
+        professor: DOM.professor.value.trim(),
+        disciplina: DOM.disciplina.value.trim() || null,
+        horaRetirada: DOM.horaRetirada.value,
+        dataRetirada: DOM.dataRetirada.value,
+        horaEntrega: DOM.horaEntrega.value || null,
+        dataEntrega: DOM.dataEntrega.value || null,
+        tipo: DOM.tipoAparelho.value,
+        marca: DOM.marcaAparelho.value.trim() || null,
+        serie: DOM.numeroSerie.value.trim().toUpperCase(),
+        quantidade: DOM.quantidade.value
+      };
+    }
+
+    /**
+     * Exibe mensagem de feedback
+     * @param {string} texto - Texto da mensagem
+     * @param {string} tipo - Tipo de mensagem (sucesso|erro)
+     */
+    function mostrarMensagem(texto, tipo = '') {
+      DOM.mensagem.textContent = texto;
+      DOM.mensagem.className = tipo;
+      DOM.mensagem.style.display = texto ? 'block' : 'none';
+    }
+
+    /**
+     * Mostra o QR Code na interface
+     * @param {string} qrCodeUrl - URL da imagem do QR Code
+     * @param {string} registroId - ID do registro
+     */
+    function mostrarQRCode(qrCodeUrl, registroId) {
+      DOM.qrCodeImage.innerHTML = `<img src="${qrCodeUrl}" alt="QR Code" style="width:100%;height:100%;">`;
+      DOM.qrCodeData.textContent = `Registro: ${registroId}`;
+      DOM.qrCodeSection.style.display = 'block';
+      DOM.qrCodeSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /**
+     * Mostra o link do PDF na interface
+     * @param {string} pdfUrl - URL do PDF
+     */
+    function mostrarPDFLink(pdfUrl) {
+      DOM.pdfLink.href = pdfUrl;
+      DOM.pdfLink.style.display = 'inline-flex';
+    }
+
+    /**
+     * Registra a retirada do equipamento
+     */
+    async function registrarRetirada() {
+      if (APP_STATE.isProcessing) return;
+      
+      try {
+        // Configura estado inicial
+        APP_STATE.isProcessing = true;
+        APP_STATE.currentRetry = 0;
+        DOM.btnRegistrar.disabled = true;
+        DOM.btnRegistrar.textContent = 'Enviando...';
+        mostrarMensagem('Enviando dados...');
+
+        // Valida o formulário
+        validarFormulario();
+        
+        // Prepara os dados
+        const dados = prepararDados();
+        
+        // Tenta enviar os dados (com retry automático)
+        let response;
+        
+        while (APP_STATE.currentRetry < CONFIG.MAX_RETRIES) {
+          try {
+            response = await fetch(CONFIG.WEB_APP_URL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(dados)
+            });
+            
+            // Se chegou aqui, a requisição foi bem sucedida
+            break;
+          } catch (error) {
+            APP_STATE.currentRetry++;
+            
+            if (APP_STATE.currentRetry >= CONFIG.MAX_RETRIES) {
+              throw error;
+            }
+            
+            // Aguarda antes de tentar novamente
+            await new Promise(resolve => setTimeout(resolve, CONFIG.RETRY_DELAY * APP_STATE.currentRetry));
+            mostrarMensagem(`Tentando novamente (${APP_STATE.currentRetry}/${CONFIG.MAX_RETRIES})...`);
+          }
+        }
+        
+        // Processa a resposta
+        const resultado = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(resultado.mensagem || `Erro HTTP! status: ${response.status}`);
+        }
+        
+        if (resultado.status === 'sucesso') {
+          mostrarMensagem(resultado.mensagem, 'sucesso');
+          
+          if (resultado.qrCodeUrl) {
+            mostrarQRCode(resultado.qrCodeUrl, resultado.registroId);
+          }
+          
+          if (resultado.pdfUrl) {
+            mostrarPDFLink(resultado.pdfUrl);
+          }
+          
+          // Limpa o formulário para um novo registro
+          DOM.tipoAparelho.value = '';
+          DOM.numeroSerie.value = '';
+          DOM.marcaAparelho.value = '';
+          DOM.quantidade.value = '1';
+        } else {
+          throw new Error(resultado.mensagem || 'Erro desconhecido no servidor');
+        }
+      } catch (error) {
+        console.error('Erro no registro:', error);
+        mostrarMensagem(`Erro: ${error.message}`, 'erro');
+      } finally {
+        // Restaura o estado do botão
+        DOM.btnRegistrar.disabled = false;
+        DOM.btnRegistrar.textContent = 'Registrar Retirada';
+        APP_STATE.isProcessing = false;
+      }
+    }
+
+    /**
+     * Baixa o QR Code gerado
+     */
+    function baixarQRCode() {
+      const img = DOM.qrCodeImage.querySelector('img');
+      if (!img) {
+        mostrarMensagem('Nenhum QR Code disponível para download', 'erro');
+        return;
+      }
+
+      const link = document.createElement('a');
+      link.href = img.src;
+      link.download = `qr-code-${DOM.qrCodeData.textContent.split(':')[1].trim()}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Adiciona animação de fadeIn
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      #qr-code-section {
+        animation: fadeIn 0.5s ease-out;
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>
