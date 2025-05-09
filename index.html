@@ -481,11 +481,72 @@
 
   <script>
     // Configurações globais
-    const CONFIG = {
-      WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwj2i-KJfIx6sIQNyHJu9M1mecRKNSFwEml-7YiFxpVV5cjbr2uIHMm8NxwEQJPC6bJ1g/exec',
-      MAX_RETRIES: 3,
-      RETRY_DELAY: 1000
-    };
+   const CONFIG = {
+  WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwj2i-KJfIx6sIQNyHJu9M1mecRKNSFwEml-7YiFxpVV5cjbr2uIHMm8NxwEQJPC6bJ1g/exec',
+  MAX_RETRIES: 3,
+  RETRY_DELAY: 1000
+};
+
+async function registrarRetirada() {
+  const btn = document.getElementById('btn-registrar');
+  const originalText = btn.textContent;
+  const mensagemEl = document.getElementById('mensagem');
+
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+  mensagemEl.textContent = 'Enviando dados...';
+  mensagemEl.className = '';
+
+  const dados = {
+    acao: 'registrarRetirada',
+    professor: document.getElementById('professor').value.trim(),
+    disciplina: document.getElementById('disciplina').value.trim() || null,
+    horaRetirada: document.getElementById('hora-retirada').value,
+    dataRetirada: document.getElementById('data-retirada').value,
+    horaEntrega: document.getElementById('hora-entrega').value || null,
+    dataEntrega: document.getElementById('data-entrega').value || null,
+    tipo: document.getElementById('tipo-aparelho').value,
+    marca: document.getElementById('marca-aparelho').value.trim() || null,
+    serie: document.getElementById('numero-serie').value.trim(),
+    quantidade: document.getElementById('quantidade-aparelhos').value || '1'
+  };
+
+  try {
+    for (let attempt = 1; attempt <= CONFIG.MAX_RETRIES; attempt++) {
+      try {
+        const response = await fetch(CONFIG.WEB_APP_URL, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dados)
+        });
+
+        const textoResposta = await response.text();
+        const resultado = JSON.parse(textoResposta);
+
+        if (!response.ok || resultado.status === 'erro') {
+          throw new Error(resultado.mensagem || 'Erro ao registrar retirada.');
+        }
+
+        mensagemEl.textContent = resultado.mensagem;
+        mensagemEl.className = 'sucesso';
+
+        return;
+      } catch (err) {
+        if (attempt === CONFIG.MAX_RETRIES) throw err;
+        await new Promise(resolve => setTimeout(resolve, CONFIG.RETRY_DELAY));
+      }
+    }
+  } catch (erro) {
+    console.error('Erro:', erro);
+    mensagemEl.textContent = `Erro: ${erro.message}`;
+    mensagemEl.className = 'erro';
+  } finally {
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
+}
+
 
     // Elementos do DOM
     const DOM = {
